@@ -1,0 +1,5 @@
+[tower]
+TOWER_HOST ansible_ssh_private_key=<>
+
+[local]
+localhost ansible_become_password=<>
