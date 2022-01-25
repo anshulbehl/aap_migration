@@ -8,5 +8,5 @@
   tasks:
     - name: Include venv role
       include_role: 
-        name: virtualenv_migrate
+        name: roles/virtualenv_migrate
     
