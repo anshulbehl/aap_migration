@@ -11,3 +11,18 @@ This repo currently holds a playbook called custom_reqs.yml, that can go to your
 This might be helpful for someone trying to migrate to EEs from virtualenvs when they have more than 3-5 virtualenvs they want to gather requirements from.
 
 
+## Sample output
+As a test I created two custom virtualenvironments in my cluster, one has netapp requirement(solidfire-apk-python) and another one has zabbix(zabbix-api), both of which are not in Default EE, the output of the comparison looks like below
+
+```
+TASK [Show the packages that are extra from default EEs in custom venvs combined.] ***********************************************************************************************************************************************************
+ok: [3.228.23.40 -> localhost] => {
+    "msg": [
+        "charset-normalizer",
+        "enum34",
+        "future",
+        "solidfire-sdk-python",
+        "zabbix-api"
+    ]
+}
+```
