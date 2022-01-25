@@ -12,7 +12,7 @@ This might be helpful for someone trying to migrate to EEs from virtualenvs when
 
 
 ## Sample output
-As a test I created two custom virtualenvironments in my cluster, one has netapp requirement(solidfire-apk-python) and another one has zabbix(zabbix-api), both of which are not in Default EE, the output of the comparison looks like below
+As a test I created two custom virtualenvironments in my cluster, one has netapp requirement(solidfire-sdk-python) and another one has zabbix(zabbix-api), both of which are not in Default EE, the output of the comparison looks like below
 
 ```
 TASK [Show the packages that are extra from default EEs in custom venvs combined.] ***********************************************************************************************************************************************************
