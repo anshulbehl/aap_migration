@@ -3,79 +3,10 @@
   hosts: "!localhost"
   become: true
   vars:
-    default_venv_paths:
-      - "/var/lib/awx/venv/ansible/"
-    default_ee_url: "registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:latest"
-    show_diff_with_default: False
+    registry_username: 
+    registry_password: 
   tasks:
+    - name: Include venv role
+      include_role: 
+        name: virtualenv_migrate
     
-    - name: Get the list of custom virtualenvs
-      ansible.builtin.command: awx-manage list_custom_venvs
-      register: my_custom_venvs
-
-    - name: Record all virtualenvs from AAP1.2 tower node
-      set_fact:
-        virtualenvs: "{{ my_custom_venvs.stdout | regex_findall('\\n?(/.*/)\\n\\n?') }}"
-      failed_when: my_custom_venvs.rc != 0
-
-    - name: Exit the play if there are no custom virtualenvironments on AAP1.2 tower node or the awx-manage command errors.
-      meta: end_play
-      when: (virtualenvs | length == 1 and show_diff_with_default == False) or (my_custom_venvs.rc != 0)
-
-    - name: Gather pip freeze output from all venvs except default venv
-      ansible.builtin.command: "{{ item }}/bin/pip freeze"
-      with_items: "{{ virtualenvs | difference(default_venv_paths) }}"
-      when: show_diff_with_default != True and virtualenvs | length > 1
-      register: freeze_results
-
-    - name: Gather pip freeze output from all venvs including the default venv
-      ansible.builtin.command: "{{ item }}/bin/pip freeze"
-      with_items: "{{ virtualenvs }}"
-      when: show_diff_with_default != False
-      register: freeze_results_default
-
-    - set_fact:
-        freeze_results: "{{ freeze_results_default }}"
-      when: freeze_results_default.skipped == False
-
-    - name: Set_fact and pull all requirements into a variable
-      set_fact:
-        combined_requirements: "{{ combined_requirements | default([]) }} + {{ item.stdout_lines }}"
-      with_items: "{{ freeze_results.results }}"
-
-    - name: Combining all custom venv requirements in a variable without the versions
-      set_fact:
-        combined_requirements: "{{ combined_requirements | map('regex_replace', '(\\w+)==[\\d+\\.]+', '\\1') | list }}"
-
-    - name: Install podman on localhost
-      dnf:
-        name: podman
-        state: present
-      delegate_to: localhost
-
-    - name: Download the default EE on localhost
-      containers.podman.podman_image:
-        name: "{{ default_ee_url }}"
-        username: "{{ registry_username }}"
-        password: "{{ registry_password }}"
-      delegate_to: localhost
-
-    - name: Get pip list from Default EE
-      ansible.builtin.command: "podman run --rm -it {{ default_ee_url }} bash -c \"/bin/pip3 freeze\""
-      register: ee_pip_list_output
-      delegate_to: localhost
-
-    - name: Retain the EE pip list without package versions
-      set_fact:
-        ee_pip_list: "{{ ee_pip_list_output.stdout.split('\n') | map('regex_replace', '(\\w+)==([\\d+\\.]+).*', '\\1') | list }}"
-      delegate_to: localhost
-
-    - name: Check what's extra in venv and create a requirement list for the new EE
-      set_fact:
-        extra_deps: "{{ combined_requirements | difference(ee_pip_list) }}"
-      delegate_to: localhost
-
-    - name: Show the packages that are extra from default EEs in custom venvs combined.
-      debug:
-        msg: "{{ extra_deps }}"
-      delegate_to: localhost
