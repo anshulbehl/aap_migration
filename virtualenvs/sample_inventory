@@ -3,3 +3,7 @@ TOWER_HOST ansible_ssh_private_key=<>
 
 [local]
 localhost ansible_become_password=<>
+
+[all:vars]
+registry_username=
+registry_password=
