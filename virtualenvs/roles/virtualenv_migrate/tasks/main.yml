@@ -1,5 +1,5 @@
 - name: Gather custom venv requirements
-  include_tasks: gather_custom_requirements.yml
+  include_tasks: 00_gather_custom_requirements.yml
 
 - name: Diff with EE requirements
-  include_tasks: ee_diff.yml
+  include_tasks: 01_ee_diff.yml
