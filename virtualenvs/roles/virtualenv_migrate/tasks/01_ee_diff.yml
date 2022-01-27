@@ -14,10 +14,10 @@
   - name: Retain the EE pip list without package versions
     set_fact:
       ee_pip_list: "{{ ee_pip_list_output.stdout.split('\n') | map('regex_replace', '(\\w+)==([\\d+\\.]+).*', '\\1') | list }}"
-  - name: Check what's extra in venv and create a requirement list for the new EE
+  - name: Check what's extra in venv and create a requirement list for the new EE and set to ee_python variable
     set_fact:
-      extra_deps: "{{ combined_requirements | difference(ee_pip_list) }}"
+      ee_python: "{{ combined_requirements | difference(ee_pip_list) }}"
   - name: Show the packages that are extra from default EEs in custom venvs combined.
     debug:
-      msg: "{{ extra_deps }}"
+      msg: "{{ ee_python }}"
   delegate_to: localhost

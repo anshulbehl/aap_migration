@@ -13,13 +13,13 @@
 
 - name: Gather pip freeze output from all venvs except default venv
   ansible.builtin.command: "{{ item }}/bin/pip freeze"
-  with_items: "{{ virtualenvs | difference(default_venv_paths) }}"
+  loop: "{{ virtualenvs | difference(default_venv_paths) }}"
   when: show_diff_with_default != True and virtualenvs | length > 1
   register: freeze_results
 
 - name: Gather pip freeze output from all venvs including the default venv
   ansible.builtin.command: "{{ item }}/bin/pip freeze"
-  with_items: "{{ virtualenvs }}"
+  loop: "{{ virtualenvs }}"
   when: show_diff_with_default != False
   register: freeze_results_default
 
@@ -31,7 +31,7 @@
 - name: Set_fact and pull all requirements into a variable
   set_fact:
     combined_requirements_with_versions: "{{ combined_requirements_with_versions | default([]) }} + {{ item.stdout_lines }}"
-  with_items: "{{ freeze_results.results }}"
+  loop: "{{ freeze_results.results }}"
 
 - name: Combining all custom venv requirements in a variable without the versions
   set_fact:

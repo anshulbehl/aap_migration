@@ -1,7 +1,6 @@
 galaxy_info:
-  author: your name
-  description: your role description
-  company: your company (optional)
+  author: Anshul Behl
+  description: Use this role to create a list of python requirements from custom virtualenvs present in your AAP 1.2 cluster, after comparing those with requirements in Default Execution Environment. This role is based on the awx-manage utility and needs an AAP1.2 tower node to gather requirements from and localhost to pull EE and compare those requirements. 
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -14,9 +13,9 @@ galaxy_info:
   # - GPL-3.0-only
   # - Apache-2.0
   # - CC-BY-4.0
-  license: license (GPL-2.0-or-later, MIT, etc)
+  license: MIT
 
-  min_ansible_version: 2.1
+  min_ansible_version: 2.9
 
   # If this a Container Enabled role, provide the minimum Ansible Container version.
   # min_ansible_container_version:
