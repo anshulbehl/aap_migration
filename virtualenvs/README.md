@@ -1,5 +1,6 @@
-<DEPRECATED>
-this role has now moved to https://github.com/redhat-cop/ee_utilities/tree/main/roles
+# DEPRECATED
+this role has now moved to https://github.com/redhat-cop/ee_utilities/tree/main/roles.
+
 # virtualenv migration
 
 Running the playbook
