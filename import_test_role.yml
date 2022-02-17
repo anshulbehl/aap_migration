@@ -1,0 +1,11 @@
+---
+- name: Export Workflow
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  tasks:
+  - name: Import backup role
+    import_role:
+      name: roles/aap2_migrate
+      tasks_from: 50_controller_import.yml
+

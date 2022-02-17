@@ -1,0 +1,19 @@
+---
+- name: Export Workflow
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  vars:
+    export_base_dir: "aap_migration_backups/"
+  collections:
+    - ansible.controller
+  tasks:
+  - command: "ls /runner/project/roles/aap2_migrate/tasks"
+    register: dir_out
+
+  - debug: var={{item}}
+    with_items: dir_out.stdout_lines
+  - name: Import backup role
+    import_role:
+      name: roles/aap2_migrate
+

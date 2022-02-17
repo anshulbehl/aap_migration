@@ -1,0 +1,23 @@
+---
+- name: "Git repo: is it up-to-date?"
+  git:
+    repo: "{{ gh_repo }}"
+    dest: "./{{ export_base_dir_import }}"
+    update: yes
+    version: master
+  register: git
+  ignore_errors: True
+
+- name: Import users
+  ansible.controller.import:
+    assets: "{{ lookup('file', '{{ export_base_dir_import }}/latest/controller/{{ item }}.yml') | from_yaml() }}"
+  loop:
+    - users
+    - teams
+    - orgs
+    - projects
+    - inventory
+    - job_templates
+    - workflow_templates
+  register: import_results
+
