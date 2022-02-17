@@ -12,9 +12,9 @@
   ansible.controller.import:
     assets: "{{ lookup('file', '{{ export_base_dir_import }}/latest/controller/{{ item }}.yml') | from_yaml() }}"
   loop:
+    - orgs
     - users
     - teams
-    - orgs
     - projects
     - inventory
     - job_templates
