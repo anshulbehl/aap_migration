@@ -43,6 +43,15 @@
   copy:
     content: "{{ __export_inventory.assets | to_nice_yaml() }}"
     dest: "{{ __export_tower_dir }}/inventory.yml"
+    
+- name: Export Credentials
+  ansible.controller.export:
+    credentials: all
+  register: __export_credentials
+- name: Export Credentials
+  copy:
+    content: "{{ __export_credentials.assets | to_nice_yaml() }}"
+    dest: "{{ __export_tower_dir }}/credentials.yml"
 
 - name: Export job templates
   ansible.controller.export:
