@@ -17,6 +17,7 @@
     - teams
     - projects
     - inventory
+    - credentials
     - job_templates
     - workflow_templates
   register: import_results
