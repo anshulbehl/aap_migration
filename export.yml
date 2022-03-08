@@ -9,6 +9,13 @@
     - ansible.controller
     - redhat_cop.aap2_migrate
   tasks:
+  - name: modify banner vserver
+    na_ontap_login_messages:
+      vserver: trident_svm
+      banner: this is trident vserver
+      usename: "username"
+      password: "password"
+      hostname: "hostname"
   - name: Import backup role
     import_role:
       name: aap2_migrate
