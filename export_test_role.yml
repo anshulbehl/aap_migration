@@ -2,12 +2,12 @@
 - name: Export Workflow
   hosts: localhost
   connection: local
-  collections: redhat_cop.aap2_migrate
   gather_facts: true
   vars:
     export_base_dir: "aap_migration_backups/"
   collections:
     - ansible.controller
+    - redhat_cop.aap2_migrate
   tasks:
   - name: Import backup role
     import_role:
