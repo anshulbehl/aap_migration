@@ -6,7 +6,6 @@
   vars:
     export_base_dir: "aap_migration_backups/"
   collections:
-    - ansible.controller
     - redhat_cop.aap2_migrate
   tasks:
   - name: Import backup role
