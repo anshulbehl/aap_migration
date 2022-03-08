@@ -1,9 +1,0 @@
----
-- name: Review custom virtualenvs and pull requirements
-  hosts: "!localhost"
-  become: true
-  tasks:
-    - name: Include venv role
-      include_role: 
-        name: roles/virtualenv_migrate
-    
