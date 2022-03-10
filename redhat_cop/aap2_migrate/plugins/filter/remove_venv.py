@@ -6,11 +6,13 @@ class FilterModule(object):
         return {
             'aap1toaap2': self.aap1toaap2
         }
-
+   '''
+   Filter plugin to apply ansible-2.9 ee to all the exported objects
+   from AAP 1.2
+   '''
     def aap1toaap2(self, dict_obj):
         k,v=list(dict_obj.keys())[0], dict_obj[list(dict_obj.keys())[0]]
         a_dict = {k:[]}
-        print(a_dict)
         obj = []
         for item in v:
             obj_dict={}
