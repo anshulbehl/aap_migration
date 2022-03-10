@@ -1,38 +1,54 @@
-Role Name
-=========
+ansible\_refarch.aap2\_migrate.migrate
+================================================
 
-A brief description of the role goes here.
+Use this role to export the objects from your running AAP1.2 cluster on to a git repository. Below features are provided by this role in order to aid in the migration from AAP 1.2 to AAP 2.1
+- Exports all the objects supported by the export module in the ansible.controller collection
+- Convert all the exported objects as AAP 2 objects (e.g Convert virtualenv keys to execution environment ones)
+- Push the exported objects and converted objects to a git repo
+- Use a git repo to do an import to the new AAP 2 cluster aiding in a side-by-side migration, by first taking backup to the same repo and then doing an import from the same repo
+
+Sample inventory file looks like this
+```
+[localhost]
+localhost migrate_default_user_location=~  #the default for this variable is set to /home/runner which enables this role to run inside an EE, if you are not running inside an EE please use the default location as this line suggests
+```
 
 Requirements
 ------------
+Depends on ansible.controller certified collection available through Ansible Automation hub
+```
+---
+collections: ansible.controller
+```
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
-Role Variables
+Role variables
 --------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+|Variable Name|Default Value|Required|Description|Example|
+|:---:|:---:|:---:|:---:|:---:|
+|`gh_repo`|None|yes|"GH repo to take backup and import objects from"|`https://github.com/anshulbehl/aap-migration-backups/`
+|`migrate_default_user_location`|`/home/runner`|No(will fail if ran outside an EE)|Default home fir to save GH creds file in order to push backups|`~`|
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
+```yaml
+# playbook to gather requirements from custom virtualenvs
+---
+- name: Export Objects
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  collections:
+    - ansible_refarch.aap2_migrate
+  tasks:
+  - name: Import backup role
+    import_role:
+      name: migrate
+```
 License
 -------
-
-BSD
+MIT
 
 Author Information
 ------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Anshul Behl (abehl@redhat.com)
