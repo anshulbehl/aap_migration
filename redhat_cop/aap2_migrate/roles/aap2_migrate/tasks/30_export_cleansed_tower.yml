@@ -2,6 +2,6 @@
 - name: Export controller objects 
   copy:
     content: "{{ item[0].assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/{{ item[1] }}.yml"
-  loop: "{{ [ \"{{ __export_projects }}\", \"{{ __export_users }}\" ] | product([ 'projects', 'users']) | list }}"
+    dest: "{{ __export_controller_dir }}/{{ item[1] }}.yml"
+  loop: "{{ [ '{{ __export_projects }}', '{{ __export_users }}' ] | product([ 'projects', 'users']) | list }}"
 
