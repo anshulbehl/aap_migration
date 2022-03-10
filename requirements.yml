@@ -1,2 +1,2 @@
 collections:
-- name: ./redhat_cop-aap2_migrate-1.0.0.tar.gz
+- name: ./ansible_refarch-aap2_migrate-1.0.0.tar.gz

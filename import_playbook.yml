@@ -4,7 +4,7 @@
   connection: local
   gather_facts: true
   collections:
-    - redhat_cop.aap2_migrate
+    - ansible_refarch.aap2_migrate
   tasks:
   - name: Import backup role
     import_role:
