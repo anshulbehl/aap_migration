@@ -1,9 +1,9 @@
 ---
 - name: Export controlller objects 
   copy:
-    content: "{{ item[0].assets | to_nice_yaml() }}"
+    content: "{{ item[0].assets | redhat_cop.aap2_migrate.aap1toaap2 | to_nice_yaml() }}"
     dest: "{{ __export_controller_dir }}/{{ item[1] }}.yml"
-  loop: "{{ [ "{{ __export_projects }}", "{{ __export_users }}", "{{ __export_teams }}", "{{ __export_orgs }}", "{{ __export_inventory }}", "{{ __export_credentials }}", "{{ __export_job_templates }}", "{{ __export_workflow_templates }}" ] | product([ 'projects', 'users', 'teams', 'orgs', 'inventory', 'credentials','job_templates', 'workflow_templates' ]) | list }}"
+  loop: "{{ [ \"{{ __export_projects }}\", \"{{ __export_users }}\", \"{{ __export_teams }}\", \"{{ __export_orgs }}\", \"{{ __export_inventory }}\", \"{{ __export_credentials }}\", \"{{ __export_job_templates }}\", \"{{ __export_workflow_templates }}\" ] | product([ 'projects', 'users', 'teams', 'orgs', 'inventory', 'credentials','job_templates', 'workflow_templates' ]) | list }}"
 
 - name: Export projects
   copy:
