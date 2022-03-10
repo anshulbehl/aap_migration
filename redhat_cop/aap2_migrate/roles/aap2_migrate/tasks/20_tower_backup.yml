@@ -9,36 +9,6 @@
     users: all
   register: __export_users
 
-- name: Export teams
-  ansible.controller.export:
-    teams: all
-  register: __export_teams
-
-- name: Export orgs
-  ansible.controller.export:
-    organizations: all
-  register: __export_orgs
-
-- name: Export inventory
-  ansible.controller.export:
-    inventory: all
-  register: __export_inventory
-   
-- name: Export Credentials
-  ansible.controller.export:
-    credentials: all
-  register: __export_credentials
-
-- name: Export job templates
-  ansible.controller.export:
-    job_templates: all
-  register: __export_job_templates
-
-- name: Export workflow templates
-  ansible.controller.export:
-    workflow_job_templates: all
-  register: __export_workflow_templates
-
 - name: Export tower objects 
   copy:
     content: "{{ item[0].assets | to_nice_yaml() }}"
