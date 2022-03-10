@@ -1,15 +1,15 @@
 ---
 - name: Create a backup dir as today's date inside the git clone
   set_fact:
-    __export_dir: "{{ export_base_dir }}{{ ansible_date_time.date }}"
+    __export_dir: "{{ migrate_export_base_dir }}{{ ansible_date_time.date }}"
 
 - name: Tower backup dir(to be pushed to repo)
   set_fact:
-    __export_tower_dir: "{{ export_base_dir }}{{ ansible_date_time.date }}/tower"
+    __export_tower_dir: "{{ migrate_export_base_dir }}{{ ansible_date_time.date }}/tower"
 
 - name: Controller backup dir(to be pushed to repo after post-processing/cleansing)
   set_fact:
-    __export_controller_dir: "{{ export_base_dir }}{{ ansible_date_time.date }}/controller"
+    __export_controller_dir: "{{ migrate_export_base_dir }}{{ ansible_date_time.date }}/controller"
 
 - name: Configure Git credential store(depends on Git credential type in AAP)
   command: "git config --global credential.helper store"
@@ -29,7 +29,7 @@
 - name: "Git repo: is it up-to-date?"
   git:
     repo: "{{ gh_repo }}"
-    dest: "./{{ export_base_dir }}"
+    dest: "./{{ migrate_export_base_dir }}"
     update: yes
     version: master
   register: git

@@ -4,8 +4,6 @@ ansible_python_interpreter: "{{ ansible_playbook_python }}"
 migrate_export_base_dir: "aap_migration_backups/"
 migrate_export_base_dir_import: "aap_migration_backups_import/"
 # github details
-migrate_git_name: ""
-migrate_git_email: ""
-migrate_GITHUB_CRED_FILE: ""
+GITHUB_CRED_FILE: ""
 # GH file user location, default is /home/runner
 migrate_default_user_location: "/home/runner"
