@@ -13,7 +13,7 @@
   copy:
     content: "{{ item[0].assets | to_nice_yaml() }}"
     dest: "{{ __export_tower_dir }}/{{ item[1] }}.yml"
-  loop: "{{ [ '{{ __export_projects }}', '{{ __export_users }}' ] | product([ 'projects', 'users']) | list }}"
+  loop: "{{ [ '{{ __export_projects }}', '{{ __export_users }}' ] | zip([ 'projects', 'users']) | list }}"
 
 #- name: Export tower objects 
 #  copy:
