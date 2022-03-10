@@ -2,7 +2,7 @@
 - name: "Git repo: is it up-to-date?"
   git:
     repo: "{{ gh_repo }}"
-    dest: "./{{ export_base_dir_import }}"
+    dest: "./{{ migrate_export_base_dir_import }}"
     update: yes
     version: master
   register: git
@@ -11,7 +11,7 @@
 
 - name: Import Objects phase1(processed for AAP2.1)
   ansible.controller.import:
-    assets: "{{ lookup('file', '{{ export_base_dir_import }}/latest/controller/{{ item }}.yml') | from_yaml() }}"
+    assets: "{{ lookup('file', '{{ migrate_export_base_dir_import }}/latest/controller/{{ item }}.yml') | from_yaml() }}"
   loop:
     - orgs
     - users
@@ -20,7 +20,7 @@
 
 - name: Import Objects phase2(processed for AAP2.1)
   ansible.controller.import:
-    assets: "{{ lookup('file', '{{ export_base_dir_import }}/latest/controller/{{ item }}.yml') | from_yaml() }}"
+    assets: "{{ lookup('file', '{{ migrate_export_base_dir_import }}/latest/controller/{{ item }}.yml') | from_yaml() }}"
   loop:
     - projects
     - inventory
