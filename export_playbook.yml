@@ -3,8 +3,6 @@
   hosts: localhost
   connection: local
   gather_facts: true
-  vars:
-    export_base_dir: "aap_migration_backups/"
   collections:
     - redhat_cop.aap2_migrate
   tasks:
