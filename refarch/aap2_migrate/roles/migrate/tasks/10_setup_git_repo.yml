@@ -23,7 +23,7 @@
 - name: Populate the Git credential store
   copy:
     src: "{{ lookup('env','GITHUB_CRED_FILE') }}"
-    dest: /home/runner/.git-credentials
+    dest: ~/.git-credentials
   no_log: True
     
 - name: "Git repo: is it up-to-date?"
