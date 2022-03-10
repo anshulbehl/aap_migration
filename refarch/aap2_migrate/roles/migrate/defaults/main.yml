@@ -2,7 +2,7 @@
 # defaults file for aap2_migrate
 ansible_python_interpreter: "{{ ansible_playbook_python }}"
 migrate_export_base_dir: "aap_migration_backups/"
-migrate_export_base_dir_import: "aap_migration_backups_import/"
+migrate_import_base_dir: "aap_migration_backups_import/"
 # github details
 github_name: ""
 git_email: ""
