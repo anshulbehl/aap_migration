@@ -1,9 +1,11 @@
 ---
 # defaults file for aap2_migrate
 ansible_python_interpreter: "{{ ansible_playbook_python }}"
-export_base_dir: "aap_migration_backups/"
-export_base_dir_import: "aap_migration_backups_import/"
+migrate_export_base_dir: "aap_migration_backups/"
+migrate_export_base_dir_import: "aap_migration_backups_import/"
 # github details
-git_name: ""
-git_email: ""
-GITHUB_CRED_FILE: ""
+migrate_git_name: ""
+migrate_git_email: ""
+migrate_GITHUB_CRED_FILE: ""
+# GH file user location, default is /home/runner
+migrate_default_user_location: "/home/runner"
