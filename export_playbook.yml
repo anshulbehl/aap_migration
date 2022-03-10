@@ -8,5 +8,5 @@
   tasks:
   - name: Import backup role
     import_role:
-      name: aap2_migrate
+      name: migrate
 

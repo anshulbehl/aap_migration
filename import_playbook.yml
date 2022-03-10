@@ -8,6 +8,6 @@
   tasks:
   - name: Import backup role
     import_role:
-      name: aap2_migrate
+      name: migrate
       tasks_from: 50_controller_import.yml
 
