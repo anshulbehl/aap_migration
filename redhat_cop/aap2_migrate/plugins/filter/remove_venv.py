@@ -1,16 +1,14 @@
 #!/usr/bin/python
 
 class FilterModule(object):
-
     def filters(self):
         return {
             'aap1toaap2': self.aap1toaap2
         }
-   '''
-   Filter plugin to apply ansible-2.9 ee to all the exported objects
-   from AAP 1.2
-   '''
     def aap1toaap2(self, dict_obj):
+        """
+        Filter plugin to add ansible-2.9 EE to exported objects from AAP 1.2
+        """
         k,v=list(dict_obj.keys())[0], dict_obj[list(dict_obj.keys())[0]]
         a_dict = {k:[]}
         obj = []
@@ -23,7 +21,7 @@ class FilterModule(object):
                                 'type': 'execution_environment'}
                     else:
                         obj_dict['execution_environment'] = {'name':'Ansible Engine 2.9 execution environment',
-                                'type': 'execution_environment'}
+                                 'type': 'execution_environment'}
                 else:
                     obj_dict[v_key] = v_value
             obj.append(obj_dict)
