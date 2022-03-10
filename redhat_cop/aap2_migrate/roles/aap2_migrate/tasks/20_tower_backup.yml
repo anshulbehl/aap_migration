@@ -3,71 +3,44 @@
   ansible.controller.export:
     projects: all
   register: __export_projects
-- name: Export projects
-  copy:
-    content: "{{ __export_projects.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/projects.yml"
 
 - name: Export users
   ansible.controller.export:
     users: all
   register: __export_users
-- name: Export users
-  copy:
-    content: "{{ __export_users.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/users.yml"
 
 - name: Export teams
   ansible.controller.export:
     teams: all
   register: __export_teams
-- name: Export teams
-  copy:
-    content: "{{ __export_teams.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/teams.yml"
 
 - name: Export orgs
   ansible.controller.export:
     organizations: all
   register: __export_orgs
-- name: Export orgs
-  copy:
-    content: "{{ __export_orgs.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/orgs.yml"
 
 - name: Export inventory
   ansible.controller.export:
     inventory: all
   register: __export_inventory
-- name: Export inventory
-  copy:
-    content: "{{ __export_inventory.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/inventory.yml"
-    
+   
 - name: Export Credentials
   ansible.controller.export:
     credentials: all
   register: __export_credentials
-- name: Export Credentials
-  copy:
-    content: "{{ __export_credentials.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/credentials.yml"
 
 - name: Export job templates
   ansible.controller.export:
     job_templates: all
   register: __export_job_templates
-- name: Export workflow job template to file
-  copy:
-    content: "{{ __export_job_templates.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/job_templates.yml"
 
 - name: Export workflow templates
   ansible.controller.export:
     workflow_job_templates: all
   register: __export_workflow_templates
-- name: Export workflow job template to file
-  copy:
-    content: "{{ __export_workflow_templates.assets | to_nice_yaml() }}"
-    dest: "{{ __export_tower_dir }}/workflow_templates.yml"
 
+- name: Export tower objects 
+  copy:
+    content: "{{ item[0].assets | to_nice_yaml() }}"
+    dest: "{{ __export_tower_dir }}/{{ item[1] }}.yml"
+  loop: "{{ [ \"{{ __export_projects }}\", \"{{ __export_users }}\", \"{{ __export_teams }}\", \"{{ __export_orgs }}\", \"{{ __export_inventory }}\", \"{{ __export_credentials }}\", \"{{ __export_job_templates }}\", \"{{ __export_workflow_templates }}\" ] | product([ 'projects', 'users', 'teams', 'orgs', 'inventory', 'credentials', 'job_templates', 'workflow_templates' ]) | list }}"
