@@ -19,10 +19,20 @@
     organizations: all
   register: __export_orgs
 
+- name: Export notification templates
+  ansible.controller.export:
+    notification_templates: all
+  register: __export_notification_templates
+
 - name: Export inventory
   ansible.controller.export:
     inventory: all
   register: __export_inventory
+
+- name: Export Credential types
+  ansible.controller.export:
+    credential_types: all
+  register: __export_credential_types
    
 - name: Export Credentials
   ansible.controller.export:
@@ -43,4 +53,4 @@
   copy:
     content: "{{ item[0].assets | to_nice_yaml() }}"
     dest: "{{ __export_tower_dir }}/{{ item[1] }}.yml"
-  loop: "{{ [ \"{{ __export_projects }}\", \"{{ __export_users }}\", \"{{ __export_teams }}\", \"{{ __export_orgs }}\", \"{{ __export_inventory }}\", \"{{ __export_credentials }}\", \"{{ __export_job_templates }}\", \"{{ __export_workflow_templates }}\" ] | zip([ 'projects', 'users', 'teams', 'orgs', 'inventory', 'credentials', 'job_templates', 'workflow_templates' ]) | list }}"
+  loop: "{{ [ \"{{ __export_projects }}\", \"{{ __export_users }}\", \"{{ __export_teams }}\", \"{{ __export_orgs }}\", \"{{ __export_notification_templates }}\", \"{{ __export_inventory }}\", \"{{ __export_credential_types }}\", \"{{ __export_credentials }}\", \"{{ __export_job_templates }}\", \"{{ __export_workflow_templates }}\" ] | zip([ 'projects', 'users', 'teams', 'orgs', 'notification_templates','inventory', 'credential_types', 'credentials', 'job_templates', 'workflow_templates' ]) | list }}"

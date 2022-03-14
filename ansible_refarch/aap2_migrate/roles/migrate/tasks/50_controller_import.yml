@@ -24,6 +24,8 @@
   loop:
     - projects
     - inventory
+    - notification_templates
+    - credential_types
     - credentials
     - job_templates
     - workflow_templates
