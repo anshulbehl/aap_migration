@@ -1,0 +1,86 @@
+---
+- name: Pull builder images
+  containers.podman.podman_image:
+    name: "{{ item }}"
+    username: "{{ portaluser }}"
+    password: "{{ portalpassword }}"
+    force: true
+  loop:
+    - "{{ ee_base_image }}"
+    - "{{ builder_image }}"
+
+- name: Delete old EE
+  containers.podman.podman_image:
+    name: "{{ image_name }}"
+    state: absent
+    force: true
+
+- name: Template out builder files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ dest_dir }}{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - ansible.cfg
+    - bindep.txt
+    - execution-environment.yml
+    - requirements.txt
+    - requirements.yml
+
+- name: Build new EE
+  ansible.builtin.command:
+    cmd: 'ansible-builder build -t {{ image_name }} --prune-images --galaxy-keyring={{ galaxy_keyring }}'
+    chdir: "{{ dest_dir }}"
+  changed_when: true
+
+- name: Get current version
+  ansible.builtin.slurp:
+    src: "{{ dest_dir }}version.txt"
+  register: version
+
+- name: get new tag version
+  ansible.builtin.set_fact:
+    new_version: "{{ (version['content'] | b64decode |float + 0.1)| round(1,'common') }}"
+
+- name: overwrite version file
+  ansible.builtin.copy:
+    content: "{{ new_version }}\n"
+    dest: "{{ dest_dir }}version.txt"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create new tag
+  containers.podman.podman_tag:
+    image: "{{ image_name }}"
+    target_names:
+      - "{{ image_name }}:{{ new_version }}.0"
+
+- name: Push new EE
+  containers.podman.podman_image:
+    name: "{{ image_name }}"
+    tag: "{{ item }}"
+    push: true
+    username: "{{ pah_user }}"
+    password: "{{ pah_pass }}"
+  loop:
+    - "{{ new_version }}.0"
+    - latest
+
+- name: Remove extra tag
+  containers.podman.podman_image:
+    name: "{{ image_name }}"
+    tag: "{{ new_version }}.0"
+    state: absent
+
+- name: Update Execution Environment Version in Controller with new version
+  ansible.controller.execution_environment:
+    name: "Automation Hub Default execution environment"
+    image: "{{ image_name }}:{{ new_version }}.0"
+    validate_certs: false
+    controller_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+    controller_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    controller_host: "{{ lookup('env', 'TOWER_HOST') }}"
+  delegate_to: localhost

@@ -1,0 +1,7 @@
+---
+- name: build EE
+  hosts: localhost
+  gather_facts: true
+  roles:
+    - build_ee
+
