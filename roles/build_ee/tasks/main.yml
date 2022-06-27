@@ -31,7 +31,7 @@
 
 - name: Build new EE
   ansible.builtin.command:
-    cmd: 'ansible-builder build -t {{ image_name }} --prune-images --galaxy-keyring={{ galaxy_keyring }}'
+    cmd: 'ansible-builder build -t {{ image_name }} --prune-images'
     chdir: "{{ dest_dir }}"
   changed_when: true
 
