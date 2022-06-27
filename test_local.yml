@@ -1,13 +1,14 @@
-    - name: Download kubeseal
-      ansible.builtin.get_url:
-        url: "https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/kubeseal-linux-amd64"
-        dest: "/usr/local/bin"
-        mode: '0755'
-      become: yes
+---
+hosts: localhost
+tasks:
+  - name: Download kubeseal
+    ansible.builtin.get_url:
+      url: "https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/kubeseal-linux-amd64"
+      dest: "/usr/local/bin"
+      mode: '0755'
 
-    - name: Rename kubeseal
-      copy: 
-        src: "/usr/local/bin/kubeseal-linux-amd64"
-        dest: "/usr/local/bin/kubeseal" 
-        remote_src: yes
-      become: yes
+  - name: Rename kubeseal
+    copy: 
+      src: "/usr/local/bin/kubeseal-linux-amd64"
+      dest: "/usr/local/bin/kubeseal" 
+      remote_src: yes
